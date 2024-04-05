@@ -25,9 +25,15 @@ a.navTab:hover {
 body {
   margin: 0;
   display: flex;
-  place-items: center;
+  justify-content: center;
   min-width: 320px;
   min-height: 100vh;
+}
+
+main {
+  display: flex;
+  margin-top: 64px;
+  padding: 2rem;
 }
 
 h1 {
