@@ -1,10 +1,8 @@
 import express from "express";
+import quizzes from "./api/quizzes";
 
 const router = express.Router();
 
-// Dummy get method
-router.get("/api/hello", (_req, res) => {
-    return res.send("Hello World");
-});
+router.use("/quizzes", quizzes);
 
 export default router;

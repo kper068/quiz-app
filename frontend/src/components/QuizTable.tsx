@@ -14,6 +14,7 @@ interface QuizData {
   name: string;
   playedCount: string;
   dateOfCreation: Date;
+  rating: number;
 }
 
 interface HeaderCell {
@@ -32,6 +33,11 @@ const headerCells: readonly HeaderCell[] = [
     id: "playedCount",
     alignRight: true,
     label: "Number of Plays",
+  },
+  {
+    id: "rating",
+    alignRight: true,
+    label: "Average Rating",
   },
   {
     id: "dateOfCreation",

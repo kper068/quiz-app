@@ -24,6 +24,9 @@ export default function CreateQuizDialog(props: CreateQuizDialogProps) {
         component: "form",
         onSubmit: (event: React.FormEvent<HTMLFormElement>) => {
           event.preventDefault();
+          const formData = new FormData(event.currentTarget);
+          const formJson = Object.fromEntries(formData.entries());
+          console.log(formJson.name);
           handleClose();
         },
       }}
