@@ -63,7 +63,7 @@ export function QuizTable() {
     <Box sx={{ width: "100%" }}>
       <Paper sx={{ width: "100%", mb: 2 }}>
         <TableContainer>
-          <Table sx={{ minWidth: 750 }}>
+          <Table sx={{ minWidth: 750, minHeight: 400 }}>
             <QuizTableHeader />
             <TableBody></TableBody>
           </Table>
