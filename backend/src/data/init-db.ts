@@ -23,8 +23,10 @@ const quiz = {
 main();
 
 async function main() {
-  await mongoose.connect(process.env.DB_URL!);
-  console.log("Connected to database!");
+  await mongoose
+    .connect(process.env.DB_URL!)
+    .then(() => console.log("Connected to database!"))
+    .catch((error) => console.log("Unable to connect: ", error));
   console.log();
 
   await clearDatabase();
@@ -34,8 +36,10 @@ async function main() {
   console.log(`Quiz '${dbQuiz.name}' added to database (_id = ${dbQuiz._id})`);
   console.log();
 
-  await mongoose.disconnect();
-  console.log("Disconnected from database!");
+  await mongoose
+    .disconnect()
+    .then(() => console.log("Disconnected from database!"))
+    .catch((error) => console.log("Unable to disconnect: ", error));
 }
 
 const clearDatabase = async () => {

@@ -7,6 +7,12 @@ import {
   deleteQuiz,
 } from "../../data/quizDAO";
 
+const HTTP_CREATED = 201;
+const HTTP_NO_CONTENT = 204;
+const HTTP_UNAUTHORIZED = 401;
+const HTTP_NOT_FOUND = 404;
+const HTTP_UNPROCESSABLE_CONTENT = 422;
+
 const router = express.Router();
 
 router.post("/", async (req, res) => {
@@ -14,11 +20,11 @@ router.post("/", async (req, res) => {
 
   if (newQuiz) {
     return res
-      .status(201)
+      .status(HTTP_CREATED)
       .header("Location", `/api/quizzes/${newQuiz._id}`)
       .json(newQuiz);
   } else {
-    return res.sendStatus(422);
+    return res.sendStatus(HTTP_UNPROCESSABLE_CONTENT);
   }
 });
 
@@ -34,7 +40,7 @@ router.get("/:id", async (req, res) => {
   if (quiz) {
     return res.json(quiz);
   } else {
-    return res.sendStatus(401);
+    return res.sendStatus(HTTP_UNAUTHORIZED);
   }
 });
 
@@ -44,13 +50,13 @@ router.put("/:id", async (req, res) => {
   quiz._id = id;
 
   const success = await updateQuiz(quiz);
-  return res.sendStatus(success ? 204 : 404);
+  return res.sendStatus(success ? HTTP_NO_CONTENT : HTTP_NOT_FOUND);
 });
 
 router.delete("/:id", async (req, res) => {
   const { id } = req.params;
   await deleteQuiz(+id);
-  return res.sendStatus(204);
+  return res.sendStatus(HTTP_NO_CONTENT);
 });
 
 export default router;
