@@ -3,34 +3,27 @@ import { httpRequest } from "./hooks/useHooks";
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
-const AppContext = createContext({
-  quizzes: {},
-});
+interface IAppContext {
+  data: object;
+  status: number;
+  loading: boolean;
+  refresh: () => void;
+}
+
+const AppContext = createContext<IAppContext | null>(null);
 
 interface ChildrenProp {
   children: React.ReactNode;
 }
 
 function AppContextProvider({ children }: ChildrenProp) {
-  const {
-    data: quizzes,
-    status: quizzesStatus,
-    loading: quizzesLoading,
-    refresh: quizzesRefresh,
-  } = httpRequest({
+  const response: IAppContext = httpRequest({
     url: `${API_BASE_URL}/api/quizzes`,
     initialState: [],
     method: "GET",
   });
 
-  const context = {
-    quizzes,
-    quizzesStatus,
-    quizzesLoading,
-    quizzesRefresh,
-  };
-
-  return <AppContext.Provider value={context}>{children}</AppContext.Provider>;
+  return <AppContext.Provider value={response}>{children}</AppContext.Provider>;
 }
 
 export { AppContext, AppContextProvider };
