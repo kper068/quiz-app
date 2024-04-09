@@ -2,7 +2,7 @@ import { Box, Typography } from "@mui/material";
 import Main from "../components/Main";
 import QuizTable from "../components/QuizTable";
 import QuizControls from "../components/QuizControls";
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import { AppContext } from "../AppContextProvider";
 
 /**
@@ -12,6 +12,11 @@ import { AppContext } from "../AppContextProvider";
  */
 export default function Home() {
   const { fetchQuizzes } = useContext(AppContext);
+  const [selected, setSelected] = useState(-1);
+
+  const handleSelectedQuiz = (selected: number) => {
+    setSelected(selected);
+  };
 
   useEffect(() => {
     fetchQuizzes();
@@ -23,8 +28,8 @@ export default function Home() {
         <Typography variant="h6" sx={{ pb: "1rem" }}>
           Browse Quizzes
         </Typography>
-        <QuizTable />
-        <QuizControls />
+        <QuizTable handleSelected={handleSelectedQuiz} />
+        <QuizControls selected={selected} />
       </Box>
     </Main>
   );

@@ -6,13 +6,12 @@ import CreateQuizDialog from "../components/CreateQuizDialog";
 import { useState } from "react";
 import { Button, Stack } from "@mui/material";
 
-export default function QuizControls() {
-  const [open, setOpen] = useState(false);
-  const [selected, setSelected] = useState(-1);
+interface QuizControlProps {
+  selected: number;
+}
 
-  const handleSelectedQuiz = (selected: number) => {
-    setSelected(selected);
-  };
+export default function QuizControls({ selected }: QuizControlProps) {
+  const [open, setOpen] = useState(false);
 
   const handleOpenForm = () => {
     setOpen(true);
@@ -21,17 +20,32 @@ export default function QuizControls() {
   const handleCloseForm = () => {
     setOpen(false);
   };
+
+  const isSelected = selected !== -1 ? true : false;
+
   return (
     <>
       <Stack direction="row" spacing={2} justifyContent="space-between">
         <Stack direction="row" spacing={2}>
-          <Button disabled variant="contained" startIcon={<PlayArrowIcon />}>
+          <Button
+            disabled={!isSelected}
+            variant="contained"
+            startIcon={<PlayArrowIcon />}
+          >
             Play Quiz
           </Button>
-          <Button disabled variant="contained" startIcon={<EditIcon />}>
+          <Button
+            disabled={!isSelected}
+            variant="contained"
+            startIcon={<EditIcon />}
+          >
             Edit Quiz
           </Button>
-          <Button disabled variant="contained" startIcon={<DeleteIcon />}>
+          <Button
+            disabled={!isSelected}
+            variant="contained"
+            startIcon={<DeleteIcon />}
+          >
             Delete Quiz
           </Button>
         </Stack>

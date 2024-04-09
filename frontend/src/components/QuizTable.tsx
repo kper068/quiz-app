@@ -9,19 +9,12 @@ import {
   TablePagination,
   TableRow,
 } from "@mui/material";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import { AppContext } from "../AppContextProvider";
-
-interface QuizData {
-  id: number;
-  name: string;
-  playedCount: string;
-  dateOfCreation: Date;
-  rating: number;
-}
+import { Quiz } from "../types/data";
 
 interface HeaderCell {
-  id: keyof QuizData;
+  id: keyof Quiz;
   alignRight: boolean;
   label: string;
 }
@@ -67,7 +60,11 @@ function QuizTableHeader() {
   );
 }
 
-export default function QuizTable() {
+interface QuizTableProps {
+  handleSelected: (id: number) => void;
+}
+
+export default function QuizTable({ handleSelected }: QuizTableProps) {
   const { quizzes } = useContext(AppContext);
   const [selected, setSelected] = useState<number>(-1);
   const [page, setPage] = useState<number>(0);
@@ -75,6 +72,7 @@ export default function QuizTable() {
 
   const onClick = (id: number) => {
     setSelected(id);
+    handleSelected(id);
   };
 
   const onChangePage = (
