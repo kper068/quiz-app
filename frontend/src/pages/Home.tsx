@@ -2,7 +2,7 @@ import { Box, Button, Stack, Typography } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import EditIcon from "@mui/icons-material/Edit";
 import Main from "../components/Main";
-import { QuizTable } from "../components/QuizTable";
+import QuizTable from "../components/QuizTable";
 import CreateQuizDialog from "../components/CreateQuizDialog";
 import { useState } from "react";
 

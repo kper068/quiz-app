@@ -3,6 +3,6 @@ import quizzes from "./api/quizzes";
 
 const router = express.Router();
 
-router.use("/quizzes", quizzes);
+router.use("/api/quizzes", quizzes);
 
 export default router;
