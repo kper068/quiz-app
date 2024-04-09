@@ -68,14 +68,10 @@ function QuizTableHeader() {
 }
 
 export default function QuizTable() {
-  const { fetchQuizzes, quizzes } = useContext(AppContext);
+  const { quizzes } = useContext(AppContext);
   const [selected, setSelected] = useState<number>(-1);
   const [page, setPage] = useState<number>(0);
   const [rowsPerPage, setRowsPerPage] = useState<number>(5);
-
-  useEffect(() => {
-    fetchQuizzes();
-  }, []);
 
   const onClick = (id: number) => {
     setSelected(id);

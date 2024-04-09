@@ -1,10 +1,9 @@
-import { Box, Button, Stack, Typography } from "@mui/material";
-import AddIcon from "@mui/icons-material/Add";
-import EditIcon from "@mui/icons-material/Edit";
+import { Box, Typography } from "@mui/material";
 import Main from "../components/Main";
 import QuizTable from "../components/QuizTable";
-import CreateQuizDialog from "../components/CreateQuizDialog";
-import { useState } from "react";
+import QuizControls from "../components/QuizControls";
+import { useContext, useEffect } from "react";
+import { AppContext } from "../AppContextProvider";
 
 /**
  * Acts as the quiz browser page
@@ -12,15 +11,11 @@ import { useState } from "react";
  * @returns HTML Component
  */
 export default function Home() {
-  const [open, setOpen] = useState(false);
+  const { fetchQuizzes } = useContext(AppContext);
 
-  const handleOpenForm = () => {
-    setOpen(true);
-  };
-
-  const handleCloseForm = () => {
-    setOpen(false);
-  };
+  useEffect(() => {
+    fetchQuizzes();
+  }, []);
 
   return (
     <Main>
@@ -29,19 +24,7 @@ export default function Home() {
           Browse Quizzes
         </Typography>
         <QuizTable />
-        <Stack direction="row" spacing={2}>
-          <Button
-            onClick={handleOpenForm}
-            variant="contained"
-            startIcon={<AddIcon />}
-          >
-            Create Quiz
-          </Button>
-          <Button disabled variant="contained" startIcon={<EditIcon />}>
-            Edit Quiz
-          </Button>
-        </Stack>
-        <CreateQuizDialog open={open} handleClose={handleCloseForm} />
+        <QuizControls />
       </Box>
     </Main>
   );
