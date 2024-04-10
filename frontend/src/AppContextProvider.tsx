@@ -1,14 +1,16 @@
-import axios from "axios";
-import { createContext, useState } from "react";
+import axios, { AxiosResponse } from "axios";
+import { createContext, useEffect, useState } from "react";
 import { Quiz } from "./types/data";
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+const QUIZ_BASE_URL = `${API_BASE_URL}/api/quizzes`;
 
 interface IAppContext {
   quizzes: Quiz[];
   loading: boolean;
   error: string;
   fetchQuizzes: () => Promise<void>;
+  createQuiz: (name: string) => Promise<void>;
 }
 
 const initialState: IAppContext = {
@@ -16,6 +18,7 @@ const initialState: IAppContext = {
   loading: false,
   error: "",
   fetchQuizzes: async () => {},
+  createQuiz: async () => {},
 };
 
 const AppContext = createContext<IAppContext>(initialState);
@@ -32,7 +35,7 @@ function AppContextProvider({ children }: Readonly<ChildrenProp>) {
   const fetchQuizzes = async () => {
     try {
       setLoading(true);
-      const response = await axios.get(`${API_BASE_URL}/api/quizzes`);
+      const response: AxiosResponse<Quiz[]> = await axios.get(QUIZ_BASE_URL);
       setQuizzes(response.data);
     } catch (error) {
       setError(`Error during fetchQuizzes(): ${error}`);
@@ -41,11 +44,29 @@ function AppContextProvider({ children }: Readonly<ChildrenProp>) {
     }
   };
 
+  const createQuiz = async (name: string) => {
+    const newQuiz: Quiz = {
+      id: quizzes.length ? quizzes[quizzes.length - 1].id + 1 : 0,
+      name: name,
+      playedCount: 0,
+      rating: -1,
+      dateOfCreation: new Date(),
+      questions: [],
+    };
+
+    try {
+      await axios.post(QUIZ_BASE_URL, newQuiz);
+    } catch (error) {
+      setError(`Error during createQuiz(): ${error}`);
+    }
+  };
+
   const context: IAppContext = {
     quizzes: quizzes,
     loading: loading,
     error: error,
     fetchQuizzes: fetchQuizzes,
+    createQuiz: createQuiz,
   };
 
   return <AppContext.Provider value={context}>{children}</AppContext.Provider>;

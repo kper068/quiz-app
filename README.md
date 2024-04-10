@@ -11,4 +11,3 @@ These are the initial functionalities, they may not all be implemented due to ti
 - **Display Quiz Results**
 - **Store Quizzes**
 - **Edit Existing Quizzes**
-- **Account System**

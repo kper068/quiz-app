@@ -7,6 +7,8 @@ import {
   DialogTitle,
   TextField,
 } from "@mui/material";
+import { useContext } from "react";
+import { AppContext } from "../AppContextProvider";
 
 interface CreateQuizDialogProps {
   open: boolean;
@@ -15,6 +17,7 @@ interface CreateQuizDialogProps {
 
 export default function CreateQuizDialog(props: CreateQuizDialogProps) {
   const { open, handleClose } = props;
+  const { createQuiz, fetchQuizzes } = useContext(AppContext);
 
   return (
     <Dialog
@@ -26,7 +29,8 @@ export default function CreateQuizDialog(props: CreateQuizDialogProps) {
           event.preventDefault();
           const formData = new FormData(event.currentTarget);
           const formJson = Object.fromEntries(formData.entries());
-          console.log(formJson.name);
+          createQuiz(formJson.name.toString());
+          fetchQuizzes();
           handleClose();
         },
       }}

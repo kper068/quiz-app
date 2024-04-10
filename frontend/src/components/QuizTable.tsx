@@ -111,6 +111,7 @@ export default function QuizTable({ handleSelected }: QuizTableProps) {
                 const quizCreationDate = new Date(
                   quiz.dateOfCreation
                 ).toLocaleDateString();
+                const quizRating = quiz.rating === -1 ? "N/A" : quiz.rating;
                 return (
                   <TableRow
                     hover
@@ -123,7 +124,7 @@ export default function QuizTable({ handleSelected }: QuizTableProps) {
                       {quiz.name}
                     </TableCell>
                     <TableCell align="right">{quiz.playedCount}</TableCell>
-                    <TableCell align="right">{quiz.rating}</TableCell>
+                    <TableCell align="right">{quizRating}</TableCell>
                     <TableCell align="right">{quizCreationDate}</TableCell>
                   </TableRow>
                 );
