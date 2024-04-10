@@ -4,11 +4,12 @@ import { useContext, useState } from "react";
 import { AppContext } from "../AppContextProvider";
 import { Box, Pagination, Stack, Typography } from "@mui/material";
 import EditQuestion from "../components/EditQuestion";
+import { QuizQuestion } from "../types/data";
 
 export default function EditQuiz() {
   const { quizId } = useParams();
   const [page, setPage] = useState<number>(1);
-  const { quizzes } = useContext(AppContext);
+  const { quizzes, updateQuiz } = useContext(AppContext);
 
   const quiz = quizzes.find((quiz) => {
     if (quiz.id === parseInt(quizId!, 10)) {
@@ -19,10 +20,18 @@ export default function EditQuiz() {
   if (!quiz) {
     return;
   }
-  console.log("hello");
 
   const onChangePage = (event: React.ChangeEvent<unknown>, page: number) => {
     setPage(page);
+  };
+
+  const updateQuestion = (updatedQuestion: QuizQuestion) => {
+    quiz.questions.forEach((question, index) => {
+      if (question.id === updatedQuestion.id) {
+        quiz.questions[index] = updatedQuestion;
+      }
+    });
+    updateQuiz(quiz);
   };
 
   return (
@@ -31,7 +40,7 @@ export default function EditQuiz() {
         <Typography variant="h6" sx={{ pb: "1rem" }}>
           {quiz.name}
         </Typography>
-        <Stack direction="column" alignItems="center" spacing={2}>
+        <Stack direction="column" alignItems="center">
           <Pagination
             count={quiz.questions.length}
             variant="outlined"
@@ -40,6 +49,11 @@ export default function EditQuiz() {
             showLastButton
             page={page}
             onChange={onChangePage}
+            sx={{ marginBottom: "1rem" }}
+          />
+          <EditQuestion
+            question={quiz.questions[page - 1]}
+            updateQuestion={updateQuestion}
           />
         </Stack>
       </Box>

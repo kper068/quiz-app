@@ -15,4 +15,4 @@ interface Quiz {
   questions: QuizQuestion[];
 }
 
-export type { Quiz };
+export type { QuizQuestion, Quiz };

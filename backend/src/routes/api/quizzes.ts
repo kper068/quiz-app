@@ -21,7 +21,7 @@ router.post("/", async (req, res) => {
   if (newQuiz) {
     return res
       .status(HTTP_CREATED)
-      .header("Location", `/api/quizzes/${newQuiz._id}`)
+      .header("Location", `/api/quizzes/${newQuiz.id}`)
       .json(newQuiz);
   } else {
     return res.sendStatus(HTTP_UNPROCESSABLE_CONTENT);
@@ -47,7 +47,7 @@ router.get("/:id", async (req, res) => {
 router.put("/:id", async (req, res) => {
   const { id } = req.params;
   const quiz = req.body;
-  quiz._id = id;
+  quiz.id = id;
 
   const success = await updateQuiz(quiz);
   return res.sendStatus(success ? HTTP_NO_CONTENT : HTTP_NOT_FOUND);

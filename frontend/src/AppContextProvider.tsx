@@ -12,6 +12,7 @@ interface IAppContext {
   fetchQuizzes: () => Promise<void>;
   createQuiz: (name: string) => Promise<number | undefined>;
   deleteQuiz: (id: number) => Promise<void>;
+  updateQuiz: (quiz: Quiz) => Promise<void>;
 }
 
 const initialState: IAppContext = {
@@ -23,6 +24,7 @@ const initialState: IAppContext = {
     return -1;
   },
   deleteQuiz: async () => {},
+  updateQuiz: async () => {},
 };
 
 const AppContext = createContext<IAppContext>(initialState);
@@ -59,7 +61,6 @@ function AppContextProvider({ children }: Readonly<ChildrenProp>) {
         { id: 0, number: 1, title: "", answers: [], correctAnswer: -1 },
       ],
     };
-
     try {
       const response: AxiosResponse<Quiz> = await axios.post(
         QUIZ_BASE_URL,
@@ -73,14 +74,25 @@ function AppContextProvider({ children }: Readonly<ChildrenProp>) {
 
   const deleteQuiz = async (id: number) => {
     try {
-      const quizToDelete = quizzes.find((quiz) => {
-        if (quiz.id === id) {
-          return quiz;
-        }
-      });
       await axios.delete(`${QUIZ_BASE_URL}/${id}`);
     } catch (error) {
       setError(`Error during deleteQuiz(): ${error}`);
+    }
+  };
+
+  const updateQuiz = async (quiz: Quiz) => {
+    const updatedQuiz: Quiz = {
+      id: quiz.id,
+      name: quiz.name,
+      playedCount: quiz.playedCount,
+      rating: quiz.rating,
+      dateOfCreation: quiz.dateOfCreation,
+      questions: quiz.questions,
+    };
+    try {
+      await axios.put(`${QUIZ_BASE_URL}/${quiz.id}`, updatedQuiz);
+    } catch (error) {
+      setError(`Error during updateQuiz(): ${error}`);
     }
   };
 
@@ -91,6 +103,7 @@ function AppContextProvider({ children }: Readonly<ChildrenProp>) {
     fetchQuizzes: fetchQuizzes,
     createQuiz: createQuiz,
     deleteQuiz: deleteQuiz,
+    updateQuiz: updateQuiz,
   };
 
   return <AppContext.Provider value={context}>{children}</AppContext.Provider>;

@@ -11,11 +11,11 @@ const getQuizzes = async () => {
 };
 
 const getQuiz = async (id: number) => {
-  return await Quiz.findById(id);
+  return await Quiz.findOne({ id: id });
 };
 
 const updateQuiz = async (quiz: any) => {
-  const dbQuiz = await Quiz.findByIdAndUpdate({ id: quiz.id }, quiz);
+  const dbQuiz = await Quiz.findOneAndUpdate({ id: quiz.id }, quiz);
   return dbQuiz !== undefined;
 };
 
