@@ -15,12 +15,12 @@ const getQuiz = async (id: number) => {
 };
 
 const updateQuiz = async (quiz: any) => {
-  const dbQuiz = await Quiz.findByIdAndUpdate({ _id: quiz._id }, quiz);
+  const dbQuiz = await Quiz.findByIdAndUpdate({ id: quiz.id }, quiz);
   return dbQuiz !== undefined;
 };
 
 const deleteQuiz = async (id: number) => {
-  await Quiz.deleteOne({ _id: id });
+  await Quiz.deleteOne({ id: id });
 };
 
 export { createQuiz, getQuizzes, getQuiz, updateQuiz, deleteQuiz };

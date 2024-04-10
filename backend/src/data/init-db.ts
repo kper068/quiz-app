@@ -35,7 +35,7 @@ async function main() {
   console.log();
 
   const dbQuiz = await createQuiz(quiz);
-  console.log(`Quiz '${dbQuiz.name}' added to database (_id = ${dbQuiz._id})`);
+  console.log(`Quiz '${dbQuiz.name}' added to database (id = ${dbQuiz.id})`);
   console.log();
 
   await mongoose

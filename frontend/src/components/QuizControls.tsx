@@ -3,9 +3,10 @@ import EditIcon from "@mui/icons-material/Edit";
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import DeleteIcon from "@mui/icons-material/Delete";
 import CreateQuizDialog from "../components/CreateQuizDialog";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { Button, Stack } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import { AppContext } from "../AppContextProvider";
 
 interface QuizControlProps {
   selected: number;
@@ -13,6 +14,7 @@ interface QuizControlProps {
 
 export default function QuizControls({ selected }: QuizControlProps) {
   const navigate = useNavigate();
+  const { deleteQuiz, fetchQuizzes } = useContext(AppContext);
   const [open, setOpen] = useState(false);
 
   const handleOpenForm = () => {
@@ -31,7 +33,10 @@ export default function QuizControls({ selected }: QuizControlProps) {
     navigate(`/quiz/${selected}/edit`);
   };
 
-  const onClickDelete = () => {};
+  const onClickDelete = () => {
+    deleteQuiz(selected);
+    fetchQuizzes();
+  };
 
   const isSelected = selected !== -1 ? true : false;
 

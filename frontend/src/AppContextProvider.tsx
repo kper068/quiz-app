@@ -11,6 +11,7 @@ interface IAppContext {
   error: string;
   fetchQuizzes: () => Promise<void>;
   createQuiz: (name: string) => Promise<number | undefined>;
+  deleteQuiz: (id: number) => Promise<void>;
 }
 
 const initialState: IAppContext = {
@@ -21,6 +22,7 @@ const initialState: IAppContext = {
   createQuiz: async () => {
     return -1;
   },
+  deleteQuiz: async () => {},
 };
 
 const AppContext = createContext<IAppContext>(initialState);
@@ -69,12 +71,26 @@ function AppContextProvider({ children }: Readonly<ChildrenProp>) {
     }
   };
 
+  const deleteQuiz = async (id: number) => {
+    try {
+      const quizToDelete = quizzes.find((quiz) => {
+        if (quiz.id === id) {
+          return quiz;
+        }
+      });
+      await axios.delete(`${QUIZ_BASE_URL}/${id}`);
+    } catch (error) {
+      setError(`Error during deleteQuiz(): ${error}`);
+    }
+  };
+
   const context: IAppContext = {
     quizzes: quizzes,
     loading: loading,
     error: error,
     fetchQuizzes: fetchQuizzes,
     createQuiz: createQuiz,
+    deleteQuiz: deleteQuiz,
   };
 
   return <AppContext.Provider value={context}>{children}</AppContext.Provider>;
