@@ -1,5 +1,5 @@
 import axios, { AxiosResponse } from "axios";
-import { createContext, useEffect, useState } from "react";
+import { createContext, useState } from "react";
 import { Quiz } from "./types/data";
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
@@ -10,7 +10,7 @@ interface IAppContext {
   loading: boolean;
   error: string;
   fetchQuizzes: () => Promise<void>;
-  createQuiz: (name: string) => Promise<void>;
+  createQuiz: (name: string) => Promise<number | undefined>;
 }
 
 const initialState: IAppContext = {
@@ -18,7 +18,9 @@ const initialState: IAppContext = {
   loading: false,
   error: "",
   fetchQuizzes: async () => {},
-  createQuiz: async () => {},
+  createQuiz: async () => {
+    return -1;
+  },
 };
 
 const AppContext = createContext<IAppContext>(initialState);
@@ -51,11 +53,17 @@ function AppContextProvider({ children }: Readonly<ChildrenProp>) {
       playedCount: 0,
       rating: -1,
       dateOfCreation: new Date(),
-      questions: [],
+      questions: [
+        { id: 0, number: 1, title: "", answers: [], correctAnswer: -1 },
+      ],
     };
 
     try {
-      await axios.post(QUIZ_BASE_URL, newQuiz);
+      const response: AxiosResponse<Quiz> = await axios.post(
+        QUIZ_BASE_URL,
+        newQuiz
+      );
+      return response.data.id;
     } catch (error) {
       setError(`Error during createQuiz(): ${error}`);
     }

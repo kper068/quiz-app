@@ -5,12 +5,14 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import CreateQuizDialog from "../components/CreateQuizDialog";
 import { useState } from "react";
 import { Button, Stack } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
 interface QuizControlProps {
   selected: number;
 }
 
 export default function QuizControls({ selected }: QuizControlProps) {
+  const navigate = useNavigate();
   const [open, setOpen] = useState(false);
 
   const handleOpenForm = () => {
@@ -20,6 +22,16 @@ export default function QuizControls({ selected }: QuizControlProps) {
   const handleCloseForm = () => {
     setOpen(false);
   };
+
+  const onClickPlay = () => {
+    navigate(`/quiz/${selected}/play`);
+  };
+
+  const onClickEdit = () => {
+    navigate(`/quiz/${selected}/edit`);
+  };
+
+  const onClickDelete = () => {};
 
   const isSelected = selected !== -1 ? true : false;
 
@@ -31,6 +43,7 @@ export default function QuizControls({ selected }: QuizControlProps) {
             disabled={!isSelected}
             variant="contained"
             startIcon={<PlayArrowIcon />}
+            onClick={onClickPlay}
           >
             Play Quiz
           </Button>
@@ -38,6 +51,7 @@ export default function QuizControls({ selected }: QuizControlProps) {
             disabled={!isSelected}
             variant="contained"
             startIcon={<EditIcon />}
+            onClick={onClickEdit}
           >
             Edit Quiz
           </Button>
@@ -45,6 +59,7 @@ export default function QuizControls({ selected }: QuizControlProps) {
             disabled={!isSelected}
             variant="contained"
             startIcon={<DeleteIcon />}
+            onClick={onClickDelete}
           >
             Delete Quiz
           </Button>

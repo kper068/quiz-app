@@ -9,6 +9,7 @@ import {
 } from "@mui/material";
 import { useContext } from "react";
 import { AppContext } from "../AppContextProvider";
+import { useNavigate } from "react-router-dom";
 
 interface CreateQuizDialogProps {
   open: boolean;
@@ -18,6 +19,7 @@ interface CreateQuizDialogProps {
 export default function CreateQuizDialog(props: CreateQuizDialogProps) {
   const { open, handleClose } = props;
   const { createQuiz, fetchQuizzes } = useContext(AppContext);
+  const navigate = useNavigate();
 
   return (
     <Dialog
@@ -29,8 +31,10 @@ export default function CreateQuizDialog(props: CreateQuizDialogProps) {
           event.preventDefault();
           const formData = new FormData(event.currentTarget);
           const formJson = Object.fromEntries(formData.entries());
-          createQuiz(formJson.name.toString());
-          fetchQuizzes();
+          createQuiz(formJson.name.toString()).then((id) => {
+            fetchQuizzes();
+            navigate(`/quiz/${id}/edit`);
+          });
           handleClose();
         },
       }}
