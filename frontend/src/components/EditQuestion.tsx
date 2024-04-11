@@ -46,7 +46,7 @@ export default function EditQuestion({
   };
 
   return (
-    <Box>
+    <Box key={question.id}>
       <Stack
         direction="column"
         spacing={6}

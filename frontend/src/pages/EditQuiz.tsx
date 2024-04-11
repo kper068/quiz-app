@@ -2,14 +2,15 @@ import { useParams } from "react-router-dom";
 import Main from "../components/Main";
 import { useContext, useState } from "react";
 import { AppContext } from "../AppContextProvider";
-import { Box, Pagination, Stack, Typography } from "@mui/material";
+import { Box, Stack, Typography } from "@mui/material";
 import EditQuestion from "../components/EditQuestion";
-import { QuizQuestion } from "../types/data";
+import { Quiz, QuizQuestion } from "../types/data";
+import EditQuizControls from "../components/EditQuizControls";
 
 export default function EditQuiz() {
   const { quizId } = useParams();
-  const [page, setPage] = useState<number>(1);
-  const { quizzes, updateQuiz } = useContext(AppContext);
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const { quizzes, updateQuiz, fetchQuizzes } = useContext(AppContext);
 
   const quiz = quizzes.find((quiz) => {
     if (quiz.id === parseInt(quizId!, 10)) {
@@ -21,8 +22,8 @@ export default function EditQuiz() {
     return;
   }
 
-  const onChangePage = (event: React.ChangeEvent<unknown>, page: number) => {
-    setPage(page);
+  const changeCurrentPage = (currentPage: number) => {
+    setCurrentPage(currentPage);
   };
 
   const updateQuestion = (updatedQuestion: QuizQuestion) => {
@@ -31,7 +32,12 @@ export default function EditQuiz() {
         quiz.questions[index] = updatedQuestion;
       }
     });
+    callUpdateQuiz(quiz);
+  };
+
+  const callUpdateQuiz = (quiz: Quiz) => {
     updateQuiz(quiz);
+    fetchQuizzes();
   };
 
   return (
@@ -41,18 +47,14 @@ export default function EditQuiz() {
           {quiz.name}
         </Typography>
         <Stack direction="column" alignItems="center">
-          <Pagination
-            count={quiz.questions.length}
-            variant="outlined"
-            shape="rounded"
-            showFirstButton
-            showLastButton
-            page={page}
-            onChange={onChangePage}
-            sx={{ marginBottom: "1rem" }}
+          <EditQuizControls
+            quiz={quiz}
+            currentPage={currentPage}
+            changeCurrentPage={changeCurrentPage}
+            updateQuiz={callUpdateQuiz}
           />
           <EditQuestion
-            question={quiz.questions[page - 1]}
+            question={quiz.questions[currentPage - 1]}
             updateQuestion={updateQuestion}
           />
         </Stack>

@@ -14,7 +14,6 @@ const quiz = {
   questions: [
     {
       id: 0,
-      number: 1,
       title: "What is 2+2?",
       answers: ["1", "2", "3", "4"],
       correctAnswer: 3,

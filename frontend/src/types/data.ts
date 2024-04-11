@@ -1,6 +1,5 @@
 interface QuizQuestion {
   id: number;
-  number: number;
   title: string;
   answers: string[];
   correctAnswer: number;
