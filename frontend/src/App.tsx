@@ -13,8 +13,8 @@ export default function App() {
       <Navbar />
       <Routes>
         <Route path="/" element={<Home />}></Route>
-        <Route path="/quiz" element={<Quiz />}>
-          <Route path=":quizId">
+        <Route path="/quiz">
+          <Route path=":quizId" element={<Quiz />}>
             <Route path="play" element={<PlayQuiz />}></Route>
             <Route path="edit" element={<EditQuiz />}></Route>
             <Route path="*" element={<PageNotFound />}></Route>

@@ -2,6 +2,7 @@ import { Button, Pagination, Stack } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { Quiz, QuizQuestion } from "../types/data";
+import { useState } from "react";
 
 interface EditQuizControlsProps {
   quiz: Quiz;
@@ -16,17 +17,21 @@ export default function EditQuizControls({
   changeCurrentPage,
   updateQuiz,
 }: EditQuizControlsProps) {
+  const [pageCount, setPageCount] = useState<number>(quiz.questions.length);
+
   const onChangePage = (event: React.ChangeEvent<unknown>, page: number) => {
     changeCurrentPage(page);
   };
 
   const onDeleteQuestion = () => {
-    if (currentPage === quiz.questions.length) {
+    if (currentPage === pageCount) {
       changeCurrentPage(currentPage - 1);
       quiz.questions.pop();
     } else {
       quiz.questions.splice(currentPage - 1, 1);
+      changeCurrentPage(currentPage);
     }
+    setPageCount(quiz.questions.length);
     updateQuiz(quiz);
   };
 
@@ -46,43 +51,42 @@ export default function EditQuizControls({
     } else {
       quiz.questions.splice(currentPage, 0, newQuestion);
     }
+    setPageCount(quiz.questions.length);
     updateQuiz(quiz);
     changeCurrentPage(currentPage + 1);
   };
 
   return (
-    <>
-      <Stack
-        direction="row"
-        justifyContent="space-between"
-        sx={{ width: "100%", marginBottom: "1rem" }}
+    <Stack
+      direction="row"
+      justifyContent="space-between"
+      sx={{ width: "100%", marginBottom: "1rem" }}
+    >
+      <Button
+        disabled={pageCount === 1 ? true : false}
+        variant="contained"
+        startIcon={<DeleteIcon />}
+        sx={{ float: "right" }}
+        onClick={onDeleteQuestion}
       >
-        <Button
-          disabled={quiz.questions.length === 1 ? true : false}
-          variant="contained"
-          startIcon={<DeleteIcon />}
-          sx={{ float: "right" }}
-          onClick={onDeleteQuestion}
-        >
-          Delete Question
-        </Button>
-        <Pagination
-          count={quiz.questions.length}
-          variant="outlined"
-          shape="rounded"
-          size="large"
-          page={currentPage}
-          onChange={onChangePage}
-        />
-        <Button
-          variant="contained"
-          startIcon={<AddIcon />}
-          sx={{ float: "right" }}
-          onClick={onAddQuestion}
-        >
-          Add Question
-        </Button>
-      </Stack>
-    </>
+        Delete Question
+      </Button>
+      <Pagination
+        count={pageCount}
+        variant="outlined"
+        shape="rounded"
+        size="large"
+        page={currentPage}
+        onChange={onChangePage}
+      />
+      <Button
+        variant="contained"
+        startIcon={<AddIcon />}
+        sx={{ float: "right" }}
+        onClick={onAddQuestion}
+      >
+        Add Question
+      </Button>
+    </Stack>
   );
 }

@@ -46,82 +46,81 @@ export default function EditQuestion({
   };
 
   return (
-    <Box key={question.id}>
-      <Stack
-        direction="column"
-        spacing={6}
-        alignItems="center"
-        component="form"
-        noValidate
-        autoComplete="off"
-        onChange={onFormChange}
-      >
-        <Typography variant="h6" sx={{ pb: "1rem", width: "100%" }}>
-          <TextField
-            margin="dense"
-            name="questionTitle"
-            label="Question"
-            defaultValue={question.title}
-            type="text"
-            variant="standard"
-            fullWidth
-          />
-        </Typography>
-        <Stack direction="row" spacing={12} alignItems="center">
-          <TextField
-            margin="dense"
-            name="answer1"
-            label="Answer 1"
-            defaultValue={question.answers[0]}
-            type="text"
-            variant="standard"
-          />
-          <TextField
-            margin="dense"
-            name="answer2"
-            label="Answer 2"
-            defaultValue={question.answers[1]}
-            type="text"
-            variant="standard"
-          />
-        </Stack>
-        <Stack direction="row" spacing={12} alignItems="center">
-          <TextField
-            margin="dense"
-            name="answer3"
-            label="Answer 3"
-            defaultValue={question.answers[2]}
-            type="text"
-            variant="standard"
-          />
-          <TextField
-            margin="dense"
-            name="answer4"
-            label="Answer 4"
-            defaultValue={question.answers[3]}
-            type="text"
-            variant="standard"
-          />
-        </Stack>
-        <Box sx={{ width: "100%" }}>
-          <InputLabel id="select-correct-answer">Correct Answer</InputLabel>
-          <Select
-            labelId="select-correct-answer"
-            name="correctAnswer"
-            value={correctAnswer}
-            onChange={onChangeCorrectAnswer}
-            fullWidth
-          >
-            <MenuItem value="">
-              <em>None</em>
-            </MenuItem>
-            <MenuItem value="0">1</MenuItem>
-            <MenuItem value="1">2</MenuItem>
-            <MenuItem value="2">3</MenuItem>
-            <MenuItem value="3">4</MenuItem>
-          </Select>
-        </Box>
+    <Stack
+      direction="column"
+      spacing={6}
+      alignItems="center"
+      component="form"
+      noValidate
+      autoComplete="off"
+      onChange={onFormChange}
+      key={question.id}
+    >
+      <Typography variant="h6" sx={{ pb: "1rem", width: "100%" }}>
+        <TextField
+          margin="dense"
+          name="questionTitle"
+          label="Question"
+          defaultValue={question.title}
+          type="text"
+          variant="standard"
+          fullWidth
+        />
+      </Typography>
+      <Stack direction="row" spacing={12} alignItems="center">
+        <TextField
+          margin="dense"
+          name="answer1"
+          label="Answer 1"
+          defaultValue={question.answers[0]}
+          type="text"
+          variant="standard"
+        />
+        <TextField
+          margin="dense"
+          name="answer2"
+          label="Answer 2"
+          defaultValue={question.answers[1]}
+          type="text"
+          variant="standard"
+        />
       </Stack>
-    </Box>
+      <Stack direction="row" spacing={12} alignItems="center">
+        <TextField
+          margin="dense"
+          name="answer3"
+          label="Answer 3"
+          defaultValue={question.answers[2]}
+          type="text"
+          variant="standard"
+        />
+        <TextField
+          margin="dense"
+          name="answer4"
+          label="Answer 4"
+          defaultValue={question.answers[3]}
+          type="text"
+          variant="standard"
+        />
+      </Stack>
+      <Box sx={{ width: "100%" }}>
+        <InputLabel id="select-correct-answer">Correct Answer</InputLabel>
+        <Select
+          labelId="select-correct-answer"
+          name="correctAnswer"
+          value={correctAnswer}
+          onChange={onChangeCorrectAnswer}
+          fullWidth
+        >
+          <MenuItem value="">
+            <em>None</em>
+          </MenuItem>
+          <MenuItem value="0">1</MenuItem>
+          <MenuItem value="1">2</MenuItem>
+          <MenuItem value="2">3</MenuItem>
+          <MenuItem value="3">4</MenuItem>
+        </Select>
+      </Box>
+    </Stack>
   );
 }

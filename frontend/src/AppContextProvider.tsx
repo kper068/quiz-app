@@ -37,7 +37,6 @@ function AppContextProvider({ children }: Readonly<ChildrenProp>) {
   const [quizzes, setQuizzes] = useState<Quiz[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>("");
-  const [latestQuizId, setLatestQuizId] = useState<number>(-1);
 
   const fetchQuizzes = async () => {
     try {
@@ -51,16 +50,27 @@ function AppContextProvider({ children }: Readonly<ChildrenProp>) {
     }
   };
 
+  const getLatestQuizId = (): number => {
+    fetchQuizzes();
+    if (quizzes.length === 0) {
+      return 0;
+    }
+    return (
+      quizzes.reduce((prev, curr) => {
+        return prev && prev.id > curr.id ? prev : curr;
+      }).id + 1
+    );
+  };
+
   const createQuiz = async (name: string) => {
     const newQuiz: Quiz = {
-      id: latestQuizId + 1,
+      id: getLatestQuizId(),
       name: name,
       playedCount: 0,
       rating: -1,
       dateOfCreation: new Date(),
       questions: [{ id: 0, title: "", answers: [], correctAnswer: -1 }],
     };
-    setLatestQuizId(latestQuizId + 1);
     try {
       const response: AxiosResponse<Quiz> = await axios.post(
         QUIZ_BASE_URL,
