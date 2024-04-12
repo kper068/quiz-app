@@ -6,7 +6,7 @@ const quizSchema = new Schema({
   id: { type: Number, required: true },
   name: { type: String, required: true },
   playedCount: Number,
-  rating: Number,
+  rating: [],
   dateOfCreation: Date,
   questions: [
     {

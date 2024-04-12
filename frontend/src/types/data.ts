@@ -9,7 +9,7 @@ interface Quiz {
   id: number;
   name: string;
   playedCount: number;
-  rating: number;
+  rating: number[];
   dateOfCreation: Date;
   questions: QuizQuestion[];
 }

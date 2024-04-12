@@ -7,7 +7,7 @@ import { Quiz, QuizQuestion } from "../types/data";
 import EditQuizControls from "../components/EditQuizControls";
 
 export default function EditQuiz() {
-  const quiz: Quiz = useOutletContext();
+  const { quiz } = useOutletContext<{ quiz: Quiz }>();
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [currentQuestion, setCurrentQuestion] = useState<number>(0);
   const { updateQuiz } = useContext(AppContext);

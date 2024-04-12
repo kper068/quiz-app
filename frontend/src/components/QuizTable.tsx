@@ -111,7 +111,11 @@ export default function QuizTable({ handleSelected }: QuizTableProps) {
                 const quizCreationDate = new Date(
                   quiz.dateOfCreation
                 ).toLocaleDateString();
-                const quizRating = quiz.rating === -1 ? "N/A" : quiz.rating;
+                const quizRating =
+                  quiz.rating.length === 0
+                    ? "N/A"
+                    : quiz.rating.reduce((prev, curr) => prev + curr) /
+                      quiz.rating.length;
                 return (
                   <TableRow
                     hover

@@ -1,11 +1,17 @@
-import { useOutletContext } from "react-router-dom";
+import { useNavigate, useOutletContext } from "react-router-dom";
 import { Quiz } from "../types/data";
-import { Pagination, Stack } from "@mui/material";
-import { useState } from "react";
+import { Button, Pagination, Stack, Typography } from "@mui/material";
+import { useContext, useState } from "react";
 import PlayQuestion from "../components/PlayQuestion";
+import { AppContext } from "../AppContextProvider";
 
 export default function PlayQuiz() {
-  const quiz: Quiz = useOutletContext();
+  const { quiz, setUserAnswers } = useOutletContext<{
+    quiz: Quiz;
+    setUserAnswers: (answers: number[]) => void;
+  }>();
+  const navigate = useNavigate();
+  const { updateQuiz } = useContext(AppContext);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [answers, setAnswers] = useState<number[]>(
     new Array<number>(quiz.questions.length)
@@ -15,7 +21,7 @@ export default function PlayQuiz() {
     setCurrentPage(page);
   };
 
-  const changeAnswer = (questionId: number, answer: number) => {
+  const onChangeAnswer = (questionId: number, answer: number) => {
     const answerIndex = quiz.questions.findIndex((question) => {
       return question.id === questionId;
     });
@@ -24,22 +30,44 @@ export default function PlayQuiz() {
     setAnswers(newAnswers);
   };
 
+  const onEndQuiz = () => {
+    setUserAnswers(answers);
+    quiz.playedCount += 1;
+    updateQuiz(quiz);
+    navigate(`/quiz/${quiz.id}/results`);
+  };
+
+  const isLastPage = currentPage === quiz.questions.length + 1;
+
   return (
     <Stack direction="column" alignItems="center">
       <Pagination
-        count={quiz.questions.length}
+        count={quiz.questions.length + 1}
         variant="outlined"
         shape="rounded"
         size="large"
         page={currentPage}
         onChange={onChangePage}
-        sx={{ marginBottom: "1rem" }}
+        sx={{
+          marginBottom: isLastPage ? "6rem" : "1rem",
+        }}
       />
-      <PlayQuestion
-        question={quiz.questions[currentPage - 1]}
-        answer={answers[currentPage - 1]}
-        setAnswer={changeAnswer}
-      />
+      {isLastPage ? (
+        <>
+          <Typography variant="h6" sx={{ pb: "1rem" }}>
+            You have reached the end of this quiz!
+          </Typography>
+          <Button variant="contained" onClick={onEndQuiz}>
+            End Question
+          </Button>
+        </>
+      ) : (
+        <PlayQuestion
+          question={quiz.questions[currentPage - 1]}
+          answer={answers[currentPage - 1]}
+          setAnswer={onChangeAnswer}
+        />
+      )}
     </Stack>
   );
 }

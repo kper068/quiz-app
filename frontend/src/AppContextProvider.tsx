@@ -67,7 +67,7 @@ function AppContextProvider({ children }: Readonly<ChildrenProp>) {
       id: getLatestQuizId(),
       name: name,
       playedCount: 0,
-      rating: -1,
+      rating: [],
       dateOfCreation: new Date(),
       questions: [{ id: 0, title: "", answers: [], correctAnswer: -1 }],
     };

@@ -9,7 +9,7 @@ const quiz = {
   id: 0,
   name: "Basic Maths",
   playedCount: 2,
-  rating: 4.5,
+  rating: [4.5],
   dateOfCreation: new Date().toLocaleString(),
   questions: [
     {
