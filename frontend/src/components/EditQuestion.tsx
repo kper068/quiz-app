@@ -9,7 +9,7 @@ import {
   InputLabel,
 } from "@mui/material";
 import { QuizQuestion } from "../types/data";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 interface EditQuestionProps {
   question: QuizQuestion;
@@ -20,9 +20,13 @@ export default function EditQuestion({
   question,
   updateQuestion,
 }: EditQuestionProps) {
-  const [correctAnswer, setCorrectAnswer] = useState<string>(
-    question.correctAnswer === -1 ? "" : question.correctAnswer.toString()
-  );
+  const [correctAnswer, setCorrectAnswer] = useState<string>("");
+
+  useEffect(() => {
+    setCorrectAnswer(
+      question.correctAnswer === -1 ? "" : question.correctAnswer.toString()
+    );
+  }, [question.id]);
 
   const onChangeCorrectAnswer = (event: SelectChangeEvent) => {
     setCorrectAnswer(event.target.value);
