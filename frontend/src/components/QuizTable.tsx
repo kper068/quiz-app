@@ -114,8 +114,12 @@ export default function QuizTable({ handleSelected }: QuizTableProps) {
                 const quizRating =
                   quiz.rating.length === 0
                     ? "N/A"
-                    : quiz.rating.reduce((prev, curr) => prev + curr) /
-                      quiz.rating.length;
+                    : Math.round(
+                        (quiz.rating.reduce((prev, curr) => prev + curr) /
+                          quiz.rating.length +
+                          Number.EPSILON) *
+                          100
+                      ) / 100;
                 return (
                   <TableRow
                     hover
