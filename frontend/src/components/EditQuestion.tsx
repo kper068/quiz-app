@@ -13,7 +13,7 @@ import { useState } from "react";
 
 interface EditQuestionProps {
   question: QuizQuestion;
-  updateQuestion: (quiz: QuizQuestion) => void;
+  updateQuestion: (question: QuizQuestion) => void;
 }
 
 export default function EditQuestion({
