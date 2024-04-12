@@ -76,7 +76,7 @@ export default function QuizTable({ handleSelected }: QuizTableProps) {
   };
 
   const onChangePage = (
-    event: React.MouseEvent<HTMLButtonElement, MouseEvent> | null,
+    _event: React.MouseEvent<HTMLButtonElement, MouseEvent> | null,
     newPage: number
   ) => {
     setPage(newPage);

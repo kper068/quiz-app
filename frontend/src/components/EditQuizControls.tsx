@@ -19,7 +19,7 @@ export default function EditQuizControls({
 }: EditQuizControlsProps) {
   const [pageCount, setPageCount] = useState<number>(quiz.questions.length);
 
-  const onChangePage = (event: React.ChangeEvent<unknown>, page: number) => {
+  const onChangePage = (_event: React.ChangeEvent<unknown>, page: number) => {
     changeCurrentPage(page);
   };
 
