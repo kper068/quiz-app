@@ -35,6 +35,7 @@ export default function EditQuestion({
   const onFormChange = (event: React.FormEvent<HTMLFormElement>) => {
     const formData = new FormData(event.currentTarget);
     const formJson = Object.fromEntries(formData.entries());
+
     const newAnswers = [
       formJson.answer1.toString(),
       formJson.answer2.toString(),
@@ -42,7 +43,12 @@ export default function EditQuestion({
       formJson.answer4.toString(),
     ];
     const newTitle = formJson.questionTitle.toString();
-    updateQuestion({ ...question, answers: newAnswers, title: newTitle });
+    const newCorrectAnswer = parseInt(formJson.correctAnswer.toString());
+
+    question.answers = newAnswers;
+    question.title = newTitle;
+    question.correctAnswer = newCorrectAnswer;
+    updateQuestion(question);
   };
 
   return (
