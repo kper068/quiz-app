@@ -1,8 +1,9 @@
 import mongoose from "mongoose";
+import { Quiz as QuizType } from "../types/data";
 
 const Schema = mongoose.Schema;
 
-const quizSchema = new Schema({
+const quizSchema = new Schema<QuizType>({
   id: { type: Number, required: true },
   name: { type: String, required: true },
   playedCount: Number,

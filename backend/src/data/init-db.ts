@@ -4,13 +4,14 @@ dotenv.config();
 import mongoose from "mongoose";
 import { createQuiz } from "./quizDAO";
 import { Quiz } from "./schema";
+import { Quiz as QuizType } from "../types/data";
 
-const quiz = {
+const quiz: QuizType = {
   id: 0,
   name: "Basic Maths",
   playedCount: 2,
   rating: [4.5],
-  dateOfCreation: new Date().toLocaleString(),
+  dateOfCreation: new Date(),
   questions: [
     {
       id: 0,

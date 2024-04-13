@@ -1,20 +1,21 @@
 import { Quiz } from "./schema";
+import { Quiz as QuizType } from "../types/data";
 
-const createQuiz = async (quiz: any) => {
+const createQuiz = async (quiz: QuizType): Promise<QuizType> => {
   const dbQuiz = new Quiz(quiz);
   await dbQuiz.save();
   return dbQuiz;
 };
 
-const getQuizzes = async () => {
+const getQuizzes = async (): Promise<QuizType[]> => {
   return await Quiz.find();
 };
 
-const getQuiz = async (id: number) => {
+const getQuiz = async (id: number): Promise<QuizType | null> => {
   return await Quiz.findOne({ id: id });
 };
 
-const updateQuiz = async (quiz: any) => {
+const updateQuiz = async (quiz: QuizType): Promise<boolean> => {
   const dbQuiz = await Quiz.findOneAndUpdate({ id: quiz.id }, quiz);
   return dbQuiz !== undefined;
 };
