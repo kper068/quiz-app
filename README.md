@@ -43,6 +43,17 @@ Most of the important elements and concepts of utilizing TypeScript instead of J
 
 Despite TypeScript introducing many benefits for developers during project development, there exists some downsides compared to vanilla JavaScript. This includes the risk of dependencies not upholding clear type definitions in their codebases resulting in types such as `unknown` and `any` which would reduce code comprehension. Another issue present in TypeScript would be overcomplicated types with little documentation causing understability concerns such as react events which has many different types alongside even more modifiers which can be hard to understand.
 
+Another important element of TypeScript would be the extra steps required to configure the project to accomdate TypeScript from JavaScript. This requires the installation of the typescript dependency as well as the typescript version of other dependencies such as `@types/react`, `ts-node` and `@types/express` for TypeScript to work with these dependencies during development. In addition to dependency installations, a `tsconfig.json` file needs to be setup (Sometimes a `tsconfig.node.json` file as well) to ensure that TypeScript is correctly configured so the project understands `.ts` file extensions and relevant imports. The following compiler options in `tsconfig.json` were necessary for this project to enable `.ts` file extension TypeScript files and use module imports correctly:
+
+```
+"target": "es2016",
+"module": "CommonJS",
+"esModuleInterop": true,
+"moduleResolution": "Node10",
+"allowImportingTsExtensions": true,
+"noEmit": true,
+```
+
 ## How to Get Started?
 
 The terminal commands in the instructions below were written for window OS machines, please use the MacOS or Linux versions of these commands to setup the web app locally.
