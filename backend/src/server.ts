@@ -21,8 +21,13 @@ app.use(express.static("public"));
 app.use("/", routes);
 
 // Connect MongoDB database and then host server
-mongoose.connect(DB_URL!).then(() => {
-    app.listen(PORT, () => console.log(`App server listening on port ${PORT}!`))
-}).catch((error) => {
+mongoose
+  .connect(DB_URL!)
+  .then(() => {
+    app.listen(PORT, () =>
+      console.log(`App server listening on port ${PORT}!`)
+    );
+  })
+  .catch((error) => {
     console.log(error);
-});
+  });
