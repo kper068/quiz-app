@@ -58,7 +58,7 @@ export default function PlayQuiz() {
             You have reached the end of this quiz!
           </Typography>
           <Button variant="contained" onClick={onEndQuiz}>
-            End Question
+            End Quiz
           </Button>
         </>
       ) : (
